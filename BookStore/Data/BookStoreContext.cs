@@ -16,6 +16,7 @@ namespace BookStore.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
 
+        public DbSet<BookGenre> BookGenres { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
