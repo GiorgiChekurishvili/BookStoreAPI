@@ -7,7 +7,7 @@ namespace BookStore.Repositories
          Task<IEnumerable<Book>> GetAllBooks();
          Task<Book> GetBookById(int id);
          Task<Book> CreateBook(Book book);
-         Task UpdateBook(Book book);
+         Task<Book> UpdateBook(Book book);
          Task DeleteBook(int id);
     }
 }

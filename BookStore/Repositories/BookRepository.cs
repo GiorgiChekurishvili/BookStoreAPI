@@ -17,6 +17,7 @@ namespace BookStore.Repositories
             {
                 await _context.Books.AddAsync(book);
                 await _context.SaveChangesAsync();
+
                 return book;
             }
             return null;
@@ -57,13 +58,15 @@ namespace BookStore.Repositories
             return null;
         }
 
-        public async Task UpdateBook(Book book)
+        public async Task<Book> UpdateBook(Book book)
         {
             if (book.ReleaseDate < DateTime.Now)
             {
                 _context.Books.Entry(book).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+                return book;
             }
+            return null;
             
         }
     }
