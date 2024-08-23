@@ -1,16 +1,15 @@
-﻿using BookStore.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.DTOs
 {
     public class BookUploadUpdateDTO
     {
         [Required]
-        public  string BookName { get; set; } = string.Empty;
+        public string BookName { get; set; } = string.Empty;
         [Required]
         public string Description { get; set; } = string.Empty;
         [Required]
-        public int GenreId { get; set; }
+        public List<int>? GenreIds { get; set; }
         [Required]
         public int AuthorId { get; set; }
         [Required]
