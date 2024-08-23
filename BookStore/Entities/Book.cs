@@ -1,6 +1,4 @@
-﻿using Azure.Core.Pipeline;
-
-namespace BookStore.Entities
+﻿namespace BookStore.Entities
 {
     public class Book
     {
@@ -15,7 +13,7 @@ namespace BookStore.Entities
         public int PublisherId { get; set; }
         public required Publisher Publisher { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public DateTime AddedDate { get; set;}
+        public DateTime AddedDate { get; set; }
         public int StockQuantity { get; set; }
         public ICollection<BookGenre>? Genres { get; set; }
 
