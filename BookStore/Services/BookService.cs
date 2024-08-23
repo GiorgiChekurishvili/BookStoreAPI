@@ -9,10 +9,12 @@ namespace BookStore.Services
     {
         readonly IBookRepository _bookRepository;
         readonly IMapper _mapper;
-        public BookService(IBookRepository bookRepository, IMapper mapper)
+        readonly IBookGenresRepository _bookGenresRepository;
+        public BookService(IBookRepository bookRepository, IMapper mapper, IBookGenresRepository bookGenresRepository)
         {
             _bookRepository = bookRepository;
             _mapper = mapper;
+            _bookGenresRepository = bookGenresRepository;
         }
         public async Task DeleteBookService(int id)
         {
@@ -23,8 +25,11 @@ namespace BookStore.Services
         {
             var map = _mapper.Map<Book>(bookUploadUpdateDTO);
             map.Id = id;
-            await _bookRepository.UpdateBook(map);
-
+            var updatedbook = await _bookRepository.UpdateBook(map);
+            if (updatedbook != null)
+            {
+                await _bookGenresRepository.UpdateBookGenres(bookUploadUpdateDTO.GenreIds, updatedbook.Id);
+            }
         }
 
         public async Task<BookUploadUpdateDTO> UploadBook(BookUploadUpdateDTO bookUploadUpdateDTO)
@@ -33,6 +38,7 @@ namespace BookStore.Services
             var books = await  _bookRepository.CreateBook(map);
             if (books != null)
             {
+                await _bookGenresRepository.UploadBookGenres(bookUploadUpdateDTO.GenreIds!, books.Id);
                 return bookUploadUpdateDTO;
             }
             return null;
