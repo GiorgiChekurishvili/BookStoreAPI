@@ -1,5 +1,6 @@
 ﻿using BookStore.Data;
 using BookStore.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace BookStore.Repositories.GenreRepository
 {
@@ -11,29 +12,53 @@ namespace BookStore.Repositories.GenreRepository
             _context = context;
         }
 
-        public Task DeleteGenre(int id)
+        public async Task DeleteGenre(int id)
         {
-            throw new NotImplementedException();
+            var genreRemove = await _context.Genres.FindAsync(id);
+            if (genreRemove != null)
+            {
+                _context.Genres.Remove(genreRemove);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<Genre> GetGenreById(int id)
+        public async Task<Genre?> GetGenreById(int id)
         {
-            throw new NotImplementedException();
+            var bookById = await _context.Genres.FindAsync(id);
+            if (bookById != null)
+                return bookById;
+
+            return null;
+          
         }
 
-        public Task<Genre> GetGenres()
+        public async Task<IEnumerable<Genre>> GetGenres()
         {
-            throw new NotImplementedException();
+            var allBooks = await _context.Genres.ToListAsync();
+            return allBooks;
+            
         }
 
-        public Task<Genre> InputGenres(Genre genre)
+        public async Task<Genre?> InputGenres(Genre genre)
         {
-            throw new NotImplementedException();
+            var genreCheck = await _context.Genres.Where(x=>x.GenreName.ToUpper() ==  genre.GenreName.ToUpper()).FirstOrDefaultAsync();
+            if (genreCheck == null)
+            {
+                await _context.Genres.AddAsync(genre);
+                await _context.SaveChangesAsync();
+                return genre;
+            }
+            return null;
         }
 
-        public Task UpdateGenres(Genre genre)
+        public async Task UpdateGenres(Genre genre)
         {
-            throw new NotImplementedException();
+            var genreCheck = await _context.Genres.Where(x => x.GenreName.ToUpper() == genre.GenreName.ToUpper()).FirstOrDefaultAsync();
+            if (genreCheck == null)
+            {
+                _context.Genres.Entry(genre).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
