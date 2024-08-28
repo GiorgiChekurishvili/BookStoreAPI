@@ -1,6 +1,8 @@
 using BookStore.Data;
-using BookStore.Repositories;
-using BookStore.Services;
+using BookStore.Repositories.BookGenresRepository;
+using BookStore.Repositories.BookRepository;
+using BookStore.Repositories.GenreRepository;
+using BookStore.Services.BookService;
 
 var builder = WebApplication.CreateBuilder(args);
 

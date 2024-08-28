@@ -1,4 +1,4 @@
-﻿namespace BookStore.Repositories
+﻿namespace BookStore.Repositories.BookGenresRepository
 {
     public interface IBookGenresRepository
     {

@@ -1,10 +1,9 @@
-﻿
-using BookStore.Data;
+﻿using BookStore.Data;
 using BookStore.DTOs;
 using BookStore.Entities;
 using System.Reflection.Metadata.Ecma335;
 
-namespace BookStore.Repositories
+namespace BookStore.Repositories.BookGenresRepository
 {
     public class BookGenresRepository : IBookGenresRepository
     {
@@ -17,8 +16,8 @@ namespace BookStore.Repositories
         public async Task UpdateBookGenres(List<int> ids, int bookId)
         {
             var bookGenres = new List<BookGenre>();
-            var bookRetrieve = await _context.BookGenres.Where(x=>x.BookId == bookId).ToListAsync();
-            foreach (var genreId in ids) 
+            var bookRetrieve = await _context.BookGenres.Where(x => x.BookId == bookId).ToListAsync();
+            foreach (var genreId in ids)
             {
                 var bookGenre = new BookGenre
                 {
@@ -27,6 +26,28 @@ namespace BookStore.Repositories
                 };
                 bookGenres.Add(bookGenre);
             }
+            for (int i = 0; i < bookGenres.Count; i++)
+            {
+                if (bookGenres[i].GenreId != bookRetrieve[i].GenreId)
+                {
+
+                    var updatedBook = await _context.BookGenres
+                        .AsNoTracking()
+                        .Where(x => x.BookId == bookRetrieve[i].BookId && x.GenreId == bookRetrieve[i].GenreId)
+                        .FirstOrDefaultAsync();
+
+                    if (updatedBook != null)
+                    {
+                        bookGenres[i].Id = updatedBook.Id;
+                        _context.Entry(bookGenres[i]).State = EntityState.Detached;
+                        _context.BookGenres.Attach(bookGenres[i]);
+                        _context.Entry(bookGenres[i]).State = EntityState.Modified;
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
             if (bookGenres.Count < bookRetrieve.Count)
             {
                 for (int i = 0; i < bookRetrieve.Count; i++)
@@ -42,7 +63,7 @@ namespace BookStore.Repositories
                         }
 
                     }
-                
+
 
                 }
             }
@@ -57,23 +78,10 @@ namespace BookStore.Repositories
                     }
                 }
                 await UploadBookGenres(bookIdAdded, bookId);
-                
+
 
             }
-            for (int i = 0; i < bookGenres.Count; i++)
-            {
-                if (bookGenres[i].GenreId != bookRetrieve[i].GenreId)
-                {
-                    var updatedBook = await _context.BookGenres.Where(x => x.BookId == bookRetrieve[i].BookId && x.GenreId == bookRetrieve[i].GenreId).FirstOrDefaultAsync();
-                    if (updatedBook != null)
-                    {
-                        bookGenres[i].Id = updatedBook.Id;
-                        _context.BookGenres.Entry(bookGenres[i]).State = EntityState.Modified;
-                        await _context.SaveChangesAsync();
-                    }
 
-                }
-            }
         }
 
         public async Task UploadBookGenres(List<int> ids, int bookId)

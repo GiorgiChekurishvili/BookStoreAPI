@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using BookStore.DTOs;
 using BookStore.Entities;
-using BookStore.Repositories;
+using BookStore.Repositories.BookGenresRepository;
+using BookStore.Repositories.BookRepository;
 
-namespace BookStore.Services
+namespace BookStore.Services.BookService
 {
     public class BookService : IBookService
     {
@@ -34,8 +35,8 @@ namespace BookStore.Services
 
         public async Task<BookUploadUpdateDTO> UploadBook(BookUploadUpdateDTO bookUploadUpdateDTO)
         {
-            var map =  _mapper.Map<Book>(bookUploadUpdateDTO);
-            var books = await  _bookRepository.CreateBook(map);
+            var map = _mapper.Map<Book>(bookUploadUpdateDTO);
+            var books = await _bookRepository.CreateBook(map);
             if (books != null)
             {
                 await _bookGenresRepository.UploadBookGenres(bookUploadUpdateDTO.GenreIds!, books.Id);

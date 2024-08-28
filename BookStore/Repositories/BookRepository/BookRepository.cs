@@ -1,7 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Entities;
 
-namespace BookStore.Repositories
+namespace BookStore.Repositories.BookRepository
 {
     public class BookRepository : IBookRepository
     {
@@ -21,7 +21,7 @@ namespace BookStore.Repositories
                 return book;
             }
             return null;
-            
+
         }
 
         public async Task DeleteBook(int id)
@@ -49,7 +49,7 @@ namespace BookStore.Repositories
 
         public async Task<Book> GetBookById(int id)
         {
-            var book = await _context.Books.Where(x=>x.Id == id).Include(x=>x.Author).Include(x=>x.Publisher).Include(x=>x.Genres!).ThenInclude(x=>x.Genre).FirstOrDefaultAsync();
+            var book = await _context.Books.Where(x => x.Id == id).Include(x => x.Author).Include(x => x.Publisher).Include(x => x.Genres!).ThenInclude(x => x.Genre).FirstOrDefaultAsync();
 
             if (book != null)
             {
@@ -67,7 +67,7 @@ namespace BookStore.Repositories
                 return book;
             }
             return null;
-            
+
         }
     }
 }

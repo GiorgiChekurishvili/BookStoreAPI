@@ -1,5 +1,5 @@
 ﻿using BookStore.DTOs;
-using BookStore.Services;
+using BookStore.Services.BookService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,7 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Entities;
 
-namespace BookStore.Repositories
+namespace BookStore.Repositories.GenreRepository
 {
     public class GenreRepository : IGenreRepository
     {
