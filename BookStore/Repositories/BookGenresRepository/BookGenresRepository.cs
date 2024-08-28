@@ -15,73 +15,27 @@ namespace BookStore.Repositories.BookGenresRepository
 
         public async Task UpdateBookGenres(List<int> ids, int bookId)
         {
-            var bookGenres = new List<BookGenre>();
             var bookRetrieve = await _context.BookGenres.Where(x => x.BookId == bookId).ToListAsync();
-            foreach (var genreId in ids)
+
+            var genresToAdd = ids.Except(bookRetrieve.Select(bg => bg.GenreId)).ToList();
+            var genresToRemove = bookRetrieve.Where(bg => !ids.Contains(bg.GenreId)).ToList();
+
+            foreach (var genreId in genresToAdd)
             {
-                var bookGenre = new BookGenre
+                var newBookGenre = new BookGenre
                 {
                     BookId = bookId,
                     GenreId = genreId
                 };
-                bookGenres.Add(bookGenre);
+                _context.BookGenres.Add(newBookGenre);
             }
-            for (int i = 0; i < bookGenres.Count; i++)
+
+            foreach (var bookGenre in genresToRemove)
             {
-                if (bookGenres[i].GenreId != bookRetrieve[i].GenreId)
-                {
-
-                    var updatedBook = await _context.BookGenres
-                        .AsNoTracking()
-                        .Where(x => x.BookId == bookRetrieve[i].BookId && x.GenreId == bookRetrieve[i].GenreId)
-                        .FirstOrDefaultAsync();
-
-                    if (updatedBook != null)
-                    {
-                        bookGenres[i].Id = updatedBook.Id;
-                        _context.Entry(bookGenres[i]).State = EntityState.Detached;
-                        _context.BookGenres.Attach(bookGenres[i]);
-                        _context.Entry(bookGenres[i]).State = EntityState.Modified;
-                    }
-                }
+                _context.BookGenres.Remove(bookGenre);
             }
 
             await _context.SaveChangesAsync();
-
-            if (bookGenres.Count < bookRetrieve.Count)
-            {
-                for (int i = 0; i < bookRetrieve.Count; i++)
-                {
-
-                    if (!bookGenres.Any(x => x.GenreId == bookRetrieve[i].GenreId))
-                    {
-                        var bookGenreRemove = await _context.BookGenres.Where(x => x.BookId == bookId && x.GenreId == bookRetrieve[i].GenreId).FirstOrDefaultAsync();
-                        if (bookGenreRemove != null)
-                        {
-                            _context.BookGenres.Remove(bookGenreRemove);
-                            await _context.SaveChangesAsync();
-                        }
-
-                    }
-
-
-                }
-            }
-            if (bookGenres.Count > bookRetrieve.Count)
-            {
-                List<int> bookIdAdded = new List<int>();
-                for (int i = 0; i < bookGenres.Count; i++)
-                {
-                    if (!bookRetrieve.Any(x => x.GenreId == bookGenres[i].GenreId))
-                    {
-                        bookIdAdded.Add(bookGenres[i].GenreId);
-                    }
-                }
-                await UploadBookGenres(bookIdAdded, bookId);
-
-
-            }
-
         }
 
         public async Task UploadBookGenres(List<int> ids, int bookId)

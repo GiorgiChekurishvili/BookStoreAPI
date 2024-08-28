@@ -64,6 +64,7 @@ namespace BookStore.Repositories.BookRepository
             {
                 _context.Books.Entry(book).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+                _context.Entry(book).State = EntityState.Detached;
                 return book;
             }
             return null;

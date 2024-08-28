@@ -1,7 +1,7 @@
 ﻿using BookStore.DTOs;
 using BookStore.Entities;
 
-namespace BookStore.Repositories.GenreRepository.GenreRepository
+namespace BookStore.Repositories.GenreRepository
 {
     public interface IGenreRepository
     {

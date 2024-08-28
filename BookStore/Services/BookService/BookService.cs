@@ -24,6 +24,10 @@ namespace BookStore.Services.BookService
 
         public async Task UpdateBook(int id, BookUploadUpdateDTO bookUploadUpdateDTO)
         {
+            if (bookUploadUpdateDTO.GenreIds == null)
+            {
+                return;
+            }
             var map = _mapper.Map<Book>(bookUploadUpdateDTO);
             map.Id = id;
             var updatedbook = await _bookRepository.UpdateBook(map);
