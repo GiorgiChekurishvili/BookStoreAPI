@@ -11,7 +11,7 @@ namespace BookStore.Repositories.BookRepository
             _context = context;
         }
 
-        public async Task<Book> CreateBook(Book book)
+        public async Task<Book?> CreateBook(Book book)
         {
             if (book.ReleaseDate < DateTime.Now)
             {
@@ -47,7 +47,7 @@ namespace BookStore.Repositories.BookRepository
 
         }
 
-        public async Task<Book> GetBookById(int id)
+        public async Task<Book?> GetBookById(int id)
         {
             var book = await _context.Books.Where(x => x.Id == id).Include(x => x.Author).Include(x => x.Publisher).Include(x => x.Genres!).ThenInclude(x => x.Genre).FirstOrDefaultAsync();
 
@@ -58,7 +58,7 @@ namespace BookStore.Repositories.BookRepository
             return null;
         }
 
-        public async Task<Book> UpdateBook(Book book)
+        public async Task<Book?> UpdateBook(Book book)
         {
             if (book.ReleaseDate < DateTime.Now)
             {

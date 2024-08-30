@@ -52,7 +52,7 @@ namespace BookStore.Controllers
             {
                 return BadRequest();
             }
-            await _bookservice.UpdateBook(id, bookUploadUpdateDTO);
+            var data = await _bookservice.UpdateBook(id, bookUploadUpdateDTO);
             return Ok();
 
         }

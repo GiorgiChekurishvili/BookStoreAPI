@@ -22,11 +22,11 @@ namespace BookStore.Services.BookService
             await _bookRepository.DeleteBook(id);
         }
 
-        public async Task UpdateBook(int id, BookUploadUpdateDTO bookUploadUpdateDTO)
+        public async Task<BookUploadUpdateDTO?> UpdateBook(int id, BookUploadUpdateDTO bookUploadUpdateDTO)
         {
             if (bookUploadUpdateDTO.GenreIds == null)
             {
-                return;
+                return null;
             }
             var map = _mapper.Map<Book>(bookUploadUpdateDTO);
             map.Id = id;
@@ -34,10 +34,13 @@ namespace BookStore.Services.BookService
             if (updatedbook != null)
             {
                 await _bookGenresRepository.UpdateBookGenres(bookUploadUpdateDTO.GenreIds, updatedbook.Id);
+                var mapdata = _mapper.Map<BookUploadUpdateDTO>(updatedbook);
+                return mapdata;
             }
+            return null;
         }
 
-        public async Task<BookUploadUpdateDTO> UploadBook(BookUploadUpdateDTO bookUploadUpdateDTO)
+        public async Task<BookUploadUpdateDTO?> UploadBook(BookUploadUpdateDTO bookUploadUpdateDTO)
         {
             var map = _mapper.Map<Book>(bookUploadUpdateDTO);
             var books = await _bookRepository.CreateBook(map);
