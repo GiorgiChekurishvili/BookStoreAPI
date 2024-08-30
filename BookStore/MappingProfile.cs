@@ -15,6 +15,7 @@ namespace BookStore
             .ForMember(dest => dest.PublisherName, opt => opt.MapFrom(src => src.Publisher.PublisherName));
             CreateMap<BookUploadUpdateDTO, Book>();
             CreateMap<PublisherDTO, Publisher>().ReverseMap();
+            CreateMap<Genre, GenreDTO>().ReverseMap();
             
         }
     }
