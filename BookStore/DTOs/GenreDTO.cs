@@ -4,8 +4,9 @@ namespace BookStore.DTOs
 {
     public class GenreDTO
     {
+        [Required]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; } = string.Empty;
+        public string GenreName { get; set; } = string.Empty;
     }
 }
