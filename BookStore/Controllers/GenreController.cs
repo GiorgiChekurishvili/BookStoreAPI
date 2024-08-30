@@ -44,6 +44,10 @@ namespace BookStore.Controllers
         [HttpPut("updategenre/{id}/{genreName}")]
         public async Task<IActionResult> UpdateGenre(int id, string genreName)
         {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
             var genre = new GenreDTO { GenreName = genreName, Id = id };
             var data = await _genreService.UpdateGenres(genre);
             if (data == null)
