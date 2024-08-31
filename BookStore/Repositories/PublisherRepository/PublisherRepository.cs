@@ -40,7 +40,7 @@ namespace BookStore.Repositories.PublisherRepository
 
         public async Task<Publisher?> RetrievePublisherById(int id)
         {
-            var data = await _context.Publishers.Include(x=>x.Books).FirstOrDefaultAsync();
+            var data = await _context.Publishers.Include(x=>x.Books).Where(x=>x.Id == id).FirstOrDefaultAsync();
             if (data != null)
             {
                 return data;
@@ -51,7 +51,7 @@ namespace BookStore.Repositories.PublisherRepository
         public async Task<Publisher?> UpdatePublisher(Publisher publisher)
         {
             var ifexists = await _context.Publishers.Where(x=>x.PublisherName.ToUpper() == publisher.PublisherName.ToUpper()).FirstOrDefaultAsync();
-            if (ifexists != null)
+            if (ifexists == null)
             {
                 _context.Publishers.Entry(publisher).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
