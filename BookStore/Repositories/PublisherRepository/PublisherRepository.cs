@@ -1,32 +1,63 @@
-﻿using BookStore.Entities;
+﻿using BookStore.Data;
+using BookStore.Entities;
 
 namespace BookStore.Repositories.PublisherRepository
 {
     public class PublisherRepository : IPublisherRepository
     {
-        public Task<Publisher> CreatePublisher(Publisher publisher)
+        readonly BookStoreContext _context;
+        public PublisherRepository(BookStoreContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<Publisher?> CreatePublisher(Publisher publisher)
+        {
+            var ifExists = await _context.Publishers.Where(x=>x.PublisherName.ToUpper() ==  publisher.PublisherName.ToUpper()).FirstOrDefaultAsync();
+            if (ifExists == null)
+            {
+                await _context.Publishers.AddAsync(publisher);
+                await _context.SaveChangesAsync();
+                return publisher;
+            }
+            return null;
         }
 
-        public Task DeletePublisher(int id)
+        public async Task DeletePublisher(int id)
         {
-            throw new NotImplementedException();
+            var data = await _context.Publishers.FindAsync(id);
+            if (data != null)
+            {
+                _context.Publishers.Remove(data);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<Publisher>> RetrieveAllPublishers()
+        public async Task<IEnumerable<Publisher>> RetrieveAllPublishers()
         {
-            throw new NotImplementedException();
+            var data = await _context.Publishers.Include(x=>x.Books).ToListAsync();
+            return data;
         }
 
-        public Task<Publisher> RetrievePublisherById(int id)
+        public async Task<Publisher?> RetrievePublisherById(int id)
         {
-            throw new NotImplementedException();
+            var data = await _context.Publishers.Include(x=>x.Books).FirstOrDefaultAsync();
+            if (data != null)
+            {
+                return data;
+            }
+            return null;
         }
 
-        public Task<Publisher> UpdatePublisher(Publisher publisher)
+        public async Task<Publisher?> UpdatePublisher(Publisher publisher)
         {
-            throw new NotImplementedException();
+            var ifexists = await _context.Publishers.Where(x=>x.PublisherName.ToUpper() == publisher.PublisherName.ToUpper()).FirstOrDefaultAsync();
+            if (ifexists != null)
+            {
+                _context.Publishers.Entry(publisher).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return publisher;
+            }
+            return null;
         }
     }
 }
