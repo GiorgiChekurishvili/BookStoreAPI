@@ -1,32 +1,53 @@
-﻿using BookStore.Entities;
+﻿using BookStore.Data;
+using BookStore.Entities;
 
 namespace BookStore.Repositories.AuthorRepository
 {
     public class AuthorRepository : IAuthorRepository
     {
-        public Task<Author> CreateAuthor(Author author)
+        readonly BookStoreContext _context;
+        public AuthorRepository(BookStoreContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task CreateAuthor(Author author)
+        {
+            await _context.Authors.AddAsync(author);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAuthor(int id)
+        public async Task DeleteAuthor(int id)
         {
-            throw new NotImplementedException();
+            var data = await _context.Authors.FindAsync(id);
+            if (data != null)
+            {
+
+                _context.Authors.Remove(data);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<Author>> RetrieveAllAuthors()
+        public async Task<IEnumerable<Author>> RetrieveAllAuthors()
         {
-            throw new NotImplementedException();
+            var data = await _context.Authors.Include(x=>x.Books).ToListAsync();
+            return data;
         }
 
-        public Task<Author> RetrieveAuthorById(int id)
+        public async Task<Author?> RetrieveAuthorById(int id)
         {
-            throw new NotImplementedException();
+            var data = await _context.Authors.Include(x => x.Books).FirstOrDefaultAsync(x => x.Id == id);
+            if (data != null)
+            {
+
+                return data;
+            }
+            return null;
         }
 
-        public Task<Author> UpdateAuthor(Author author)
+        public async Task UpdateAuthor(Author author)
         {
-            throw new NotImplementedException();
+            _context.Authors.Entry(author).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
