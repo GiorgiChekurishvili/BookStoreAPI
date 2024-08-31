@@ -7,6 +7,7 @@ using BookStore.Repositories.PublisherRepository;
 using BookStore.Services.AuthorService;
 using BookStore.Services.BookService;
 using BookStore.Services.GenreService;
+using BookStore.Services.PublisherService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IPublisherRepository , PublisherRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IPublisherService, PublisherService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
