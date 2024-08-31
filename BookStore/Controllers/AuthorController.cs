@@ -33,14 +33,23 @@ namespace BookStore.Controllers
         [HttpPost("uploadauthor")]
         public async Task<IActionResult> UploadAuthor(AuthorDTO author)
         {
-            await _authorService.UploadAuthor(author);
-            return Ok();
+            var data = await _authorService.UploadAuthor(author);
+            if (data != null)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
         [HttpPut("updateauthor/{id}")]
         public async Task<IActionResult> UpdateAuthor(int id, AuthorDTO author)
         {
-            await _authorService.UpdateAuthor(id, author);
-            return Ok();
+            var data = await _authorService.UpdateAuthor(id, author);
+            if (data != null)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
         }
         [HttpDelete("deleteauthor/{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
