@@ -19,17 +19,28 @@ namespace BookStore.Services.AuthorService
             await _authorRepository.DeleteAuthor(id);
         }
 
-        public async Task UpdateAuthor(int id, AuthorDTO author)
+        public async Task<AuthorDTO?> UpdateAuthor(int id, AuthorDTO author)
         {
             var map = _mapper.Map<Author>(author);
             map.Id = id;
-            await _authorRepository.UpdateAuthor(map);
+            var data = await _authorRepository.UpdateAuthor(map);
+            if (data == null)
+            {
+                return null;
+            }
+            return author;
         }
 
-        public async Task UploadAuthor(AuthorDTO author)
+        public async Task<AuthorDTO?> UploadAuthor(AuthorDTO author)
         {
             var map = _mapper.Map<Author>(author);
-            await _authorRepository.CreateAuthor(map);
+            var data = await _authorRepository.CreateAuthor(map);
+            if (data == null)
+            {
+                return null;
+            }
+            return author;
+
 
         }
 

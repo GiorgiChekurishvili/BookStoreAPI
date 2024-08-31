@@ -6,8 +6,8 @@ namespace BookStore.Services.AuthorService
     {
         Task<IEnumerable<AuthorRetrieveDTO>> ViewAllAuthors();
         Task<AuthorRetrieveDTO> ViewAuthorById(int id);
-        Task UploadAuthor(AuthorDTO author);
-        Task UpdateAuthor(int id, AuthorDTO author);
+        Task<AuthorDTO?> UploadAuthor(AuthorDTO author);
+        Task<AuthorDTO?> UpdateAuthor(int id, AuthorDTO author);
         Task DeleteAuthorService(int id);
     }
 }
