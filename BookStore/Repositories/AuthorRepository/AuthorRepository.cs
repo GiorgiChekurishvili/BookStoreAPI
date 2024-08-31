@@ -10,10 +10,16 @@ namespace BookStore.Repositories.AuthorRepository
         {
             _context = context;
         }
-        public async Task CreateAuthor(Author author)
+        public async Task<Author?> CreateAuthor(Author author)
         {
-            await _context.Authors.AddAsync(author);
-            await _context.SaveChangesAsync();
+            var data = await _context.Authors.Where(x=>x.AuthorName.ToUpper()  == author.AuthorName.ToUpper()).FirstOrDefaultAsync();
+            if (data == null)
+            {
+                await _context.Authors.AddAsync(author);
+                await _context.SaveChangesAsync();
+                return author;
+            }
+            return null;
         }
 
         public async Task DeleteAuthor(int id)
@@ -44,10 +50,16 @@ namespace BookStore.Repositories.AuthorRepository
             return null;
         }
 
-        public async Task UpdateAuthor(Author author)
+        public async Task<Author?> UpdateAuthor(Author author)
         {
-            _context.Authors.Entry(author).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            var data = await _context.Authors.Where(x => x.AuthorName.ToUpper() == author.AuthorName.ToUpper()).FirstOrDefaultAsync();
+            if (data == null)
+            {
+                _context.Authors.Entry(author).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return author;
+            }
+            return null;
         }
     }
 }
