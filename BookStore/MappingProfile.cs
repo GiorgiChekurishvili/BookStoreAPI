@@ -20,6 +20,7 @@ namespace BookStore
                 .ForMember(dest => dest.BooksWritten, opt => opt.MapFrom(src => src.Books.Select(x => x.BookName).ToList()));
             CreateMap<Publisher, PublisherRetrieveDTO>()
                 .ForMember(dest => dest.BooksPublished, x => x.MapFrom(src => src.Books.Select(x => x.BookName).ToList()));
+            CreateMap<UserRegisterDTO, User>();
             
         }
     }
