@@ -15,8 +15,9 @@ namespace BookStore.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
-
         public DbSet<BookGenre> BookGenres { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,7 +54,12 @@ namespace BookStore.Data
             modelBuilder.Entity<Publisher>().HasKey(a => a.Id);
             modelBuilder.Entity<Publisher>().Property(p => p.PublisherName).IsRequired().HasMaxLength(128);
 
+            modelBuilder.Entity<Role>().HasKey(a => a.Id);
+            modelBuilder.Entity<Role>().Property(x => x.Name).IsRequired().HasMaxLength(32);
 
+            modelBuilder.Entity<User>().HasKey(x => x.Id);
+            modelBuilder.Entity<User>().HasOne(x => x.Role).WithMany(x => x.Users).HasForeignKey(x => x.RoleId);
+            modelBuilder.Entity<User>().Property(x => x.RoleId).HasDefaultValue(1);
         }
     }
 }
