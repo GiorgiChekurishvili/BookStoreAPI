@@ -18,6 +18,7 @@ namespace BookStore.Data
         public DbSet<BookGenre> BookGenres { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,6 +61,11 @@ namespace BookStore.Data
             modelBuilder.Entity<User>().HasKey(x => x.Id);
             modelBuilder.Entity<User>().HasOne(x => x.Role).WithMany(x => x.Users).HasForeignKey(x => x.RoleId);
             modelBuilder.Entity<User>().Property(x => x.RoleId).HasDefaultValue(1);
+
+            modelBuilder.Entity<Transaction>().HasKey(x => x.Id);
+            modelBuilder.Entity<Transaction>().HasOne(x => x.book).WithMany(x => x.Transactions).HasForeignKey(x => x.BookId);
+            modelBuilder.Entity<Transaction>().HasOne(x => x.user).WithMany(x => x.Transactions).HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<Transaction>().Property(x => x.BoughtDatetime).HasDefaultValueSql("SYSDATETIME()");
         }
     }
 }
