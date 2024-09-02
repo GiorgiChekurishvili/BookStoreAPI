@@ -3,6 +3,7 @@ using BookStore.DTOs.Author;
 using BookStore.DTOs.Book;
 using BookStore.DTOs.Genre;
 using BookStore.DTOs.Publisher;
+using BookStore.DTOs.Transaction;
 using BookStore.DTOs.User;
 using BookStore.Entities;
 
@@ -25,6 +26,10 @@ namespace BookStore
             CreateMap<Publisher, PublisherRetrieveDTO>()
                 .ForMember(dest => dest.BooksPublished, x => x.MapFrom(src => src.Books.Select(x => x.BookName).ToList()));
             CreateMap<UserRegisterDTO, User>();
+            CreateMap<Transaction, TransactionDTO>()
+                .ForMember(dest => dest.BookName, x => x.MapFrom(src => src.book!.BookName));
+            CreateMap<BuyBookTransactionDTO, Transaction>();
+            
             
         }
     }
