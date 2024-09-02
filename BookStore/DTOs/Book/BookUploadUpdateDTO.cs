@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookStore.DTOs
+namespace BookStore.DTOs.Book
 {
     public class BookUploadUpdateDTO
     {

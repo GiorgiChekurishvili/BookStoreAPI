@@ -1,6 +1,6 @@
 ﻿using BookStore.Entities;
 
-namespace BookStore.DTOs
+namespace BookStore.DTOs.Publisher
 {
     public class PublisherRetrieveDTO
     {

@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
-using BookStore.DTOs;
+using BookStore.DTOs.Author;
+using BookStore.DTOs.Book;
+using BookStore.DTOs.Genre;
+using BookStore.DTOs.Publisher;
+using BookStore.DTOs.User;
 using BookStore.Entities;
 
 namespace BookStore

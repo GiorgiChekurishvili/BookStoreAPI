@@ -1,4 +1,4 @@
-﻿using BookStore.DTOs;
+﻿using BookStore.DTOs.Publisher;
 
 namespace BookStore.Services.PublisherService
 {

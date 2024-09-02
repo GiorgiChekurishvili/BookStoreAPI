@@ -1,4 +1,4 @@
-﻿using BookStore.DTOs;
+﻿using BookStore.DTOs.Book;
 
 namespace BookStore.Services.BookService
 {

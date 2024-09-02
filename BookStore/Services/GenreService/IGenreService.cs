@@ -1,4 +1,4 @@
-﻿using BookStore.DTOs;
+﻿using BookStore.DTOs.Genre;
 using BookStore.Entities;
 
 namespace BookStore.Services.GenreService

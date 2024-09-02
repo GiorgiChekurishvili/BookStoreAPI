@@ -1,4 +1,4 @@
-﻿using BookStore.DTOs;
+﻿using BookStore.DTOs.User;
 
 namespace BookStore.Services.AuthService
 {

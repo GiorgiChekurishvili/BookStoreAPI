@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BookStore.DTOs;
+using BookStore.DTOs.Publisher;
 using BookStore.Entities;
 using BookStore.Repositories.PublisherRepository;
 

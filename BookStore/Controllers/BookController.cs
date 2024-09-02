@@ -1,4 +1,4 @@
-﻿using BookStore.DTOs;
+﻿using BookStore.DTOs.Book;
 using BookStore.Services.BookService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

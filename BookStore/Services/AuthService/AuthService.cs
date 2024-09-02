@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BookStore.DTOs;
+using BookStore.DTOs.User;
 using BookStore.Entities;
 using BookStore.Repositories.AuthRepository;
 using System.Security.Cryptography;

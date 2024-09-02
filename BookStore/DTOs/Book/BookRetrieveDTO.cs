@@ -1,6 +1,6 @@
 ﻿using BookStore.Entities;
 
-namespace BookStore.DTOs
+namespace BookStore.DTOs.Book
 {
     public class BookRetrieveDTO
     {
@@ -16,6 +16,6 @@ namespace BookStore.DTOs
         public int StockQuantity { get; set; }
         public DateTime ReleaseDate { get; set; }
         public DateTime AddedDate { get; set; }
-        
+
     }
 }
