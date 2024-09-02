@@ -30,6 +30,7 @@ namespace BookStore.Services.BookService
             }
             var map = _mapper.Map<Book>(bookUploadUpdateDTO);
             map.Id = id;
+            map.StockLeft = bookUploadUpdateDTO.StockQuantity;
             var updatedbook = await _bookRepository.UpdateBook(map);
             if (updatedbook != null)
             {
@@ -43,7 +44,9 @@ namespace BookStore.Services.BookService
         public async Task<BookUploadUpdateDTO?> UploadBook(BookUploadUpdateDTO bookUploadUpdateDTO)
         {
             var map = _mapper.Map<Book>(bookUploadUpdateDTO);
+            map.StockLeft = bookUploadUpdateDTO.StockQuantity;
             var books = await _bookRepository.CreateBook(map);
+
             if (books != null)
             {
                 await _bookGenresRepository.UploadBookGenres(bookUploadUpdateDTO.GenreIds!, books.Id);
