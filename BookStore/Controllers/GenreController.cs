@@ -16,7 +16,7 @@ namespace BookStore.Controllers
             _genreService = genreService;
         }
 
-        [Authorize(Roles = "Member")]
+        [Authorize]
         [HttpGet("viewallgenres")]
         public async Task<ActionResult<IEnumerable<GenreDTO>>> ViewAllGenres()
         {
@@ -24,7 +24,7 @@ namespace BookStore.Controllers
             return Ok(genres);
         }
 
-        [Authorize(Roles = "Member")]
+        [Authorize]
         [HttpGet("viewgenrebyid/{id}")]
         public async Task<ActionResult<GenreDTO>> ViewGenreById(int id)
         {
