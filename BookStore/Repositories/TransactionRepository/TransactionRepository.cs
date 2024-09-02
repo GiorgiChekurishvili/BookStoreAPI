@@ -18,6 +18,11 @@ namespace BookStore.Repositories.TransactionRepository
             {
                 return -1;
             }
+            ifexists.StockLeft -= transaction.BoughtQuantity;
+            if (ifexists.StockLeft < 0)
+            {
+                return -1;
+            }
             var userbalance = await _context.Users.FindAsync(transaction.UserId);
             userbalance!.Balance -= (transaction.BoughtQuantity * ifexists.Price);
             if (userbalance.Balance < 0)
@@ -25,11 +30,9 @@ namespace BookStore.Repositories.TransactionRepository
                 return -1;
             }
             await _context.Transactions.AddAsync(transaction);
-            ifexists.StockLeft -= transaction.BoughtQuantity;
-
             await _context.SaveChangesAsync();
             
-            return userbalance.Balance;
+            return transaction.BoughtQuantity * ifexists.Price;
 
         }
 
