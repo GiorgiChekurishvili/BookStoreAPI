@@ -1,5 +1,6 @@
 ﻿using BookStore.DTOs;
 using BookStore.Services.AuthorService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +15,16 @@ namespace BookStore.Controllers
         {
             _authorService = authorService;
         }
+
+        [Authorize(Roles = "Member")]
         [HttpGet("getallauthors")]
         public async Task<ActionResult<IEnumerable<AuthorRetrieveDTO>>> GetAllAuthors()
         {
             var data = await _authorService.ViewAllAuthors();
             return Ok(data);
         }
+
+        [Authorize(Roles = "Member")]
         [HttpGet("getauthorbyid/{id}")]
         public async Task<ActionResult<AuthorRetrieveDTO>> GetAuthorById(int id)
         {
@@ -30,6 +35,8 @@ namespace BookStore.Controllers
             }
             return NotFound();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("uploadauthor")]
         public async Task<IActionResult> UploadAuthor(AuthorDTO author)
         {
@@ -40,6 +47,8 @@ namespace BookStore.Controllers
             }
             return BadRequest();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("updateauthor/{id}")]
         public async Task<IActionResult> UpdateAuthor(int id, AuthorDTO author)
         {
@@ -51,6 +60,8 @@ namespace BookStore.Controllers
 
             return BadRequest();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("deleteauthor/{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {

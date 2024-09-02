@@ -1,5 +1,6 @@
 ﻿using BookStore.DTOs;
 using BookStore.Services.GenreService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +15,16 @@ namespace BookStore.Controllers
         {
             _genreService = genreService;
         }
+
+        [Authorize(Roles = "Member")]
         [HttpGet("viewallgenres")]
         public async Task<ActionResult<IEnumerable<GenreDTO>>> ViewAllGenres()
         {
             var genres = await _genreService.GetGenres();
             return Ok(genres);
         }
+
+        [Authorize(Roles = "Member")]
         [HttpGet("viewgenrebyid/{id}")]
         public async Task<ActionResult<GenreDTO>> ViewGenreById(int id)
         {
@@ -30,6 +35,8 @@ namespace BookStore.Controllers
             }
             return Ok(genre);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("creategenre")]
         public async Task<IActionResult> CreateGenre(string genreName)
         {
@@ -41,6 +48,8 @@ namespace BookStore.Controllers
             return Ok("Genre has been added  Successfully");
 
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("updategenre/{id}/{genreName}")]
         public async Task<IActionResult> UpdateGenre(int id, string genreName)
         {
@@ -57,6 +66,8 @@ namespace BookStore.Controllers
             return Ok("Genre has been changed successfully");
 
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("deletegenre/{id}")]
         public async Task<IActionResult> DeleteGenre(int id)
         {

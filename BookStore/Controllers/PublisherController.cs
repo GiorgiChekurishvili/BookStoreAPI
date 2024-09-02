@@ -1,5 +1,6 @@
 ﻿using BookStore.DTOs;
 using BookStore.Services.PublisherService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace BookStore.Controllers
             _publisherService = publisherService;
         }
 
+        [Authorize(Roles = "Member")]
         [HttpGet("getallpublishers")]
         public async Task<ActionResult<IEnumerable<PublisherRetrieveDTO>>> GetAllPublishers()
         {
@@ -25,6 +27,8 @@ namespace BookStore.Controllers
             }
             return NotFound();
         }
+
+        [Authorize(Roles = "Member")]
         [HttpGet("getpublisherbyid{id}")]
         public async Task<ActionResult<PublisherRetrieveDTO>> GetPublisherById(int id)
         {
@@ -35,6 +39,8 @@ namespace BookStore.Controllers
             }
             return NotFound();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("uploadpublisher")]
         public async Task<ActionResult<PublisherDTO>> UploadPublisher(PublisherDTO publisher)
         {
@@ -45,6 +51,8 @@ namespace BookStore.Controllers
             }
             return BadRequest();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("updatepublisher/{id}")]
         public async Task<ActionResult<PublisherDTO>> UpdatePublisher(PublisherDTO publisher, int id)
         {
@@ -55,6 +63,8 @@ namespace BookStore.Controllers
             }
             return BadRequest();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("deletepublisher/{id}")]
         public async Task<IActionResult> DeletePublisher(int id)
         {
