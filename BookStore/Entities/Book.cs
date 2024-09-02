@@ -15,7 +15,9 @@
         public DateTime ReleaseDate { get; set; }
         public DateTime AddedDate { get; set; }
         public int StockQuantity { get; set; }
+        public int StockLeft { get; set; }
         public ICollection<BookGenre>? Genres { get; set; }
+        public ICollection<Transaction>? Transactions { get; set; }
 
     }
 }
