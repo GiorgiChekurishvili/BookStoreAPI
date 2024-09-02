@@ -34,7 +34,7 @@ namespace BookStore.Controllers
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var balance = await _transactionService.ViewMyBalanceService(userId);
-            return Ok("balance: "+ balance);
+            return Ok("balance: "+ balance + "$");
         }
         [Authorize(Roles = "Member")]
         [HttpPost("buybook/{bookId}/{bookQuantity}")]
@@ -53,7 +53,7 @@ namespace BookStore.Controllers
             {
                 return BadRequest();
             }
-            return Ok("balance left in your account: " + balance + " $");
+            return Ok("total price: " + balance + " $");
         }
         [Authorize(Roles = "Member")]
         [HttpGet("viewmybooks")]
