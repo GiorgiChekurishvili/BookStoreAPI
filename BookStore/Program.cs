@@ -5,11 +5,13 @@ using BookStore.Repositories.BookGenresRepository;
 using BookStore.Repositories.BookRepository;
 using BookStore.Repositories.GenreRepository;
 using BookStore.Repositories.PublisherRepository;
+using BookStore.Repositories.TransactionRepository;
 using BookStore.Services.AuthorService;
 using BookStore.Services.AuthService;
 using BookStore.Services.BookService;
 using BookStore.Services.GenreService;
 using BookStore.Services.PublisherService;
+using BookStore.Services.TransactionService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -71,12 +73,14 @@ builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IPublisherRepository , PublisherRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IPublisherService, PublisherService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
