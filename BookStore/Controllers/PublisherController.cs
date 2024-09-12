@@ -27,7 +27,7 @@ namespace BookStore.Controllers
             return NotFound();
         }
 
-        [HttpGet("getpublisherbyid{id}")]
+        [HttpGet("getpublisherbyid/{id}")]
         public async Task<ActionResult<PublisherRetrieveDTO>> GetPublisherById(int id)
         {
             var data = await _publisherService.ViewPublisherById(id);
