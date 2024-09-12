@@ -16,7 +16,6 @@ namespace BookStore.Controllers
             _bookservice = bookService;
         }
 
-        [Authorize]
         [HttpGet("allbooks")]
         public async Task<ActionResult<IEnumerable<BookRetrieveDTO>>> AllBooks()
         {
@@ -28,7 +27,6 @@ namespace BookStore.Controllers
             return BadRequest();
         }
 
-        [Authorize]
         [HttpGet("getbookbyid/{id}")]
         public async Task<ActionResult<BookRetrieveDTO>> GetBookById(int id)
         {

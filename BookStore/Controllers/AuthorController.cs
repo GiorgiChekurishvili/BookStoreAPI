@@ -16,7 +16,6 @@ namespace BookStore.Controllers
             _authorService = authorService;
         }
 
-        [Authorize]
         [HttpGet("getallauthors")]
         public async Task<ActionResult<IEnumerable<AuthorRetrieveDTO>>> GetAllAuthors()
         {
@@ -24,7 +23,6 @@ namespace BookStore.Controllers
             return Ok(data);
         }
 
-        [Authorize]
         [HttpGet("getauthorbyid/{id}")]
         public async Task<ActionResult<AuthorRetrieveDTO>> GetAuthorById(int id)
         {

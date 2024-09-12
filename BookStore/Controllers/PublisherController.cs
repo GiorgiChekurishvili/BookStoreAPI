@@ -16,7 +16,6 @@ namespace BookStore.Controllers
             _publisherService = publisherService;
         }
 
-        [Authorize]
         [HttpGet("getallpublishers")]
         public async Task<ActionResult<IEnumerable<PublisherRetrieveDTO>>> GetAllPublishers()
         {
@@ -28,7 +27,6 @@ namespace BookStore.Controllers
             return NotFound();
         }
 
-        [Authorize]
         [HttpGet("getpublisherbyid{id}")]
         public async Task<ActionResult<PublisherRetrieveDTO>> GetPublisherById(int id)
         {
